@@ -1,0 +1,22 @@
+# entorno virtual
+.venv/
+venv/
+
+# variables de entorno
+.env
+
+# archivos compilados de python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# archivos del sistema
+.DS_Store
+Thumbs.db
+
+# archivos generados por el programa
+plan_semanal.txt
+
+# vscode
+.vscode/
