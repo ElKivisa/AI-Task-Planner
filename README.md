@@ -1,18 +1,33 @@
-# Mini agente de planificación con IA
+# AI Task Planner
 
-Este proyecto consiste en un pequeño agente en Python que analiza una lista de tareas y genera un plan semanal usando el modelo de IA de Gemini.
+A small Python agent that uses an AI model to analyze tasks, prioritize them, and generate a simple weekly plan.
 
-## Archivos del proyecto
+## Project files
 
-- `main.py` → ejecuta el programa y guarda el resultado  
-- `agent.py` → contiene el agente que usa el modelo de IA  
-- `tasks.py` → contiene la lista de tareas de entrada  
+- `main.py` → runs the program and saves the result
+- `agent.py` → contains the AI planning agent
+- `tasks.py` → contains the input tasks
 
-## Ejecución
+## Requirements
 
-1. Instalar las dependencias necesarias.
-2. Configurar la API key del modelo de IA en el archivo `.env`.
-3. Ejecutar el programa:
+Python 3.9+
 
-```bash
+Install dependencies:
+
+pip install google-genai python-dotenv
+
+## Configuration
+
+Create a `.env` file in the project root and add your API key:
+
+GEMINI_API_KEY=your_api_key
+
+## Run the program
+
 python main.py
+
+## Output
+
+The generated plan will be saved in:
+
+plan_semanal.txt

@@ -4,42 +4,55 @@ from google import genai
 
 load_dotenv()
 
+
 class PlanningAgent:
+
     def __init__(self, tasks):
         self.tasks = tasks
+
         api_key = os.getenv("GEMINI_API_KEY")
+
         if not api_key:
-            raise ValueError("GEMINI_API_KEY no encontrado en las variables de entorno.")
-        
+            raise ValueError("GEMINI_API_KEY not found in .env file")
+
         self.client = genai.Client(api_key=api_key)
 
     def analyze_tasks(self):
+
         prompt = f"""
-        Analiza las siguientes tareas y haz lo siguiente:
-        1 -Determina una prioridad de las tareas
-        2 -Genera un plan semanal simple
-        3 -Explica brevemente el razonamiento
+You are a task planning agent.
 
-        Tareas:
-        {self.tasks}
+Analyze the following list of tasks and do the following:
 
-        Responde en este formato:
+1. Determine the priority order of the tasks
+2. Generate a simple weekly plan
+3. Explain briefly the reasoning
 
-        Prioridad:
-        1-
-        2-
-        3-
+Task list:
+{self.tasks}
 
-        Plan Semanal:
-        Lunes:
-        Martes:
-        Miércoles:
+Respond in English using this exact format:
 
-        Razonamiento:
-        """
+Priority:
+1.
+2.
+3.
+
+Weekly plan:
+Monday:
+Tuesday:
+Wednesday:
+Thursday:
+Friday:
+Saturday:
+Sunday:
+
+Reason:
+"""
 
         response = self.client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model="gemini-2.0-flash",
             contents=prompt,
         )
+
         return response.text.strip()

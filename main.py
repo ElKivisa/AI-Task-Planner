@@ -10,7 +10,6 @@ def main():
     result = agent.analyze_tasks()
 
     save_result(result)
-    print(result)
 
 if __name__ == "__main__":
     main()
