@@ -1,0 +1,22 @@
+# virtual environment
+.venv/
+venv/
+
+# environment variables
+.env
+
+# compiled python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# system files
+.DS_Store
+Thumbs.db
+
+# generated output
+plan_semanal.txt
+
+# vscode
+.vscode/

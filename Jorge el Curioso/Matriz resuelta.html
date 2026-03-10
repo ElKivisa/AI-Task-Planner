@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Cumplimentación N-Raya</title>
+<script>
+    	var nfc=4;
+		var filas=(nfc*2)+2;
+		var tb=new Array(filas);
+        for(let i=0;i<filas;i++)tb[i]=new Array(nfc);
+        
+       
+    function cargar(){
+        let destino=document.getElementById("opciones");
+        for(let i=3;i<=10;i++){
+            let v=document.createElement("option");
+            v.text=i;
+            v.value=i;
+            destino.appendChild(v);
+        }
+        destino.addEventListener("change",()=>{cambio();});
+        cambio();
+    }
+    function cambio(){
+        nfc=parseInt(document.getElementById("opciones").value);
+        filas=(nfc*2)+2;
+		tb=new Array(filas);
+        for(let i=0;i<filas;i++)tb[i]=new Array(nfc);
+        let c=0;
+		for(let i=0;i<nfc;i++) {
+			for(let j=0;j<nfc;j++) {
+				tb[c][j]=(i*nfc)+(j+1);
+				tb[c+nfc][j]=(j*nfc)+(i+1);
+			}
+			c++;
+		}
+		c=(nfc*2);
+		for(let i=0;i<nfc;i++) {
+			tb[c][i]=(i*nfc)+(i+1);
+			tb[c+1][i]=(i*nfc)+(nfc-i);
+		}
+        document.getElementById("marco").innerHTML=dime();
+    }
+    function dime(){
+        let cadena="<table align='center' border=1>";
+            for(let i=0;i<tb.length;i++) {
+                cadena +="<tr>";
+			for(let j=0;j<tb[i].length;j++) {
+                cadena +="<td>"+tb[i][j ]+"</td>";
+            }
+            cadena +="</tr>";
+
+        } 
+            cadena +="</table>";
+        return cadena;
+    }
+
+     window.addEventListener("load",()=>{cargar();});
+</script>
+<style>
+    body {
+    background-color: #7e7c7c;  /* Light gray color */
+  }
+  #marco{
+    width: 500px;
+    height: 500px;
+    margin:20px auto;
+  }
+</style>
+</head>
+<body>
+    <p style="text-align: center;" >
+        <select  id="opciones">
+        </select></p>
+    <div id="marco"></div>
+</body>
+</html>
