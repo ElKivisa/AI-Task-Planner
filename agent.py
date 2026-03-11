@@ -7,6 +7,7 @@ load_dotenv()
 
 class PlanningAgent:
 
+    #Constructor del agente, obtiene la clave de la API del .env
     def __init__(self, tasks):
         self.tasks = tasks
 
@@ -17,6 +18,7 @@ class PlanningAgent:
 
         self.client = genai.Client(api_key=api_key)
 
+    #Función para analizar las tareas, generar un plan semanal y explicar el razonamiento
     def analyze_tasks(self):
 
         prompt = f"""
@@ -31,7 +33,7 @@ Analyze the following list of tasks and do the following:
 Task list:
 {self.tasks}
 
-Respond in English using this exact format:
+Respond in English using this exact format, adding more rows if necessary:
 
 Priority:
 1.
@@ -50,8 +52,9 @@ Sunday:
 Reason:
 """
 
+        #Genera la respuesta utilizando el modelo de lenguaje de Gemini
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             contents=prompt,
         )
 
