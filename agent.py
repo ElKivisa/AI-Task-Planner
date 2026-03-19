@@ -1,39 +1,36 @@
 import os
 from dotenv import load_dotenv
-from google import genai
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
 
 load_dotenv()
 
-
 class PlanningAgent:
-
-    #Constructor del agente, obtiene la clave de la API del .env
     def __init__(self, tasks):
         self.tasks = tasks
 
-        api_key = os.getenv("GEMINI_API_KEY")
+        # Modelo (LLM)
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash",
+            temperature=0.3
+        )
 
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY not found in .env file")
+        # Prompt template
+        self.prompt = PromptTemplate(
+            input_variables=["tasks"],
+            template="""
+You are an AI planning assistant.
 
-        self.client = genai.Client(api_key=api_key)
+Your job is to:
+1. Analyze the tasks
+2. Prioritize them
+3. Create a weekly plan
+4. Explain your reasoning
 
-    #Función para analizar las tareas, generar un plan semanal y explicar el razonamiento
-    def analyze_tasks(self):
+Tasks:
+{tasks}
 
-        prompt = f"""
-You are a task planning agent.
-
-Analyze the following list of tasks and do the following:
-
-1. Determine the priority order of the tasks
-2. Generate a simple weekly plan
-3. Explain briefly the reasoning
-
-Task list:
-{self.tasks}
-
-Respond in English using this exact format, adding more rows if necessary:
+Respond EXACTLY in this format:
 
 Priority:
 1.
@@ -51,11 +48,17 @@ Sunday:
 
 Reason:
 """
-
-        #Genera la respuesta utilizando el modelo de lenguaje de Gemini
-        response = self.client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
         )
 
-        return response.text.strip()
+    def analyze_tasks(self):
+        try:
+            # Crear el prompt final
+            formatted_prompt = self.prompt.format(tasks=self.tasks)
+
+            # Llamar al modelo
+            response = self.llm.invoke(formatted_prompt)
+
+            return response.content
+
+        except Exception as e:
+            return f"Error: {e}"
